@@ -1,0 +1,22 @@
+# Use the official Node.js image
+FROM node:18-alpine
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and lock files
+# This is cached by Docker, so dependencies are only re-installed if package.json changes
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of your code (this is mainly for the initial setup)
+COPY . .
+
+# Expose the Vite port
+EXPOSE 3000
+
+# The command to start the dev server
+# This will be run by docker-compose
+CMD ["npm", "run", "dev"]
